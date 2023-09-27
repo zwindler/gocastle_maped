@@ -41,6 +41,7 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 		}
 		entriesMatrix = append(entriesMatrix, currentRow)
 	}
+	scrollablegrid := container.NewScroll(mainGrid)
 
 	resetButton := widget.NewButton("Reset Matrix", func() {
 		showMatrixScreen(window, columns, rows)
@@ -72,7 +73,7 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 	})
 	lastLine := container.New(layout.NewGridLayoutWithColumns(3), resetButton, previewButton, validateButton)
 
-	mainContent := container.NewBorder(nil, lastLine, nil, nil, mainGrid)
+	mainContent := container.NewBorder(nil, lastLine, nil, nil, scrollablegrid)
 
 	window.SetContent(mainContent)
 }
