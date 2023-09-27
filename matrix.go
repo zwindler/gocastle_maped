@@ -3,9 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 )
@@ -52,24 +54,29 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 	})
 
 	validateButton := widget.NewButton("Generate JSON", func() {
-		var matrix [][]string
+		var matrix [][]uint16
 		for y := 0; y < rows; y++ {
-			row := make([]string, columns)
+			row := make([]uint16, columns)
 			for x := 0; x < columns; x++ {
 				value := entriesMatrix[y][x].Text
 				if value == "" {
 					value = "0"
 				}
-				row[x] = value
+				intValue, err := strconv.Atoi(value)
+				if err != nil {
+					dialog.ShowError(fmt.Errorf("unable to convert value %d/%d %s to uint16", x, y, value), window)
+				}
+				row[x] = uint16(intValue)
 			}
 			matrix = append(matrix, row)
 		}
 		jsonData, err := json.Marshal(matrix)
 		if err != nil {
-			fmt.Println("Error encoding JSON:", err)
+			dialog.ShowError(fmt.Errorf("error encoding JSON: %w", err), window)
 			return
 		}
-		fmt.Println(string(jsonData))
+		data := fmt.Sprintf("{\"MapMatrix\": %s}", string(jsonData))
+		ShowSaveGridScreen(window, data)
 	})
 	lastLine := container.New(layout.NewGridLayoutWithColumns(3), resetButton, previewButton, validateButton)
 
