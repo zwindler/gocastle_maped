@@ -11,6 +11,10 @@ import (
 	"fyne.io/fyne/v2/storage"
 )
 
+type mapData struct {
+	MapMatrix [][]uint16
+}
+
 func ShowLoadGridScreen(window fyne.Window) {
 	fd := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
 		if err != nil {
@@ -33,9 +37,13 @@ func ShowLoadGridScreen(window fyne.Window) {
 			dialog.ShowError(err, window)
 			return
 		}
+
+		rows := len(currentMatrix)
+		columns := len(currentMatrix[0])
+		showMatrixScreen(window, columns, rows)
 	}, window)
-	// only show .sav files
-	fd.SetFilter(storage.NewExtensionFileFilter([]string{".sav"}))
+	// only show .json files
+	fd.SetFilter(storage.NewExtensionFileFilter([]string{".json"}))
 	location, err := getBaseDirectory()
 
 	if err != nil {
@@ -50,7 +58,7 @@ func loadGridFromFile(r io.Reader) (data map[string]interface{}, err error) {
 }
 
 func updateLoadedGridData(data map[string]interface{}) error {
-	var loadedData [][]int
+	var loadedData = mapData{}
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -59,6 +67,8 @@ func updateLoadedGridData(data map[string]interface{}) error {
 	if err != nil {
 		return err
 	}
+
+	currentMatrix = loadedData.MapMatrix
 
 	return nil
 }
