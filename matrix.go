@@ -10,9 +10,14 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+
+	"github.com/zwindler/gocastle/pkg/maps"
 )
 
-var currentMatrix [][]uint16
+var (
+	currentMatrix [][]uint16
+	Map0          = maps.Map{}
+)
 
 func showMatrixScreen(window fyne.Window, columns, rows int) {
 	var entriesMatrix [][]*widget.Entry
@@ -50,7 +55,21 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 	})
 
 	previewButton := widget.NewButton("Preview", func() {
+		// TODO REMOVE ALL BELLOW
+		result := make([][]int, len(currentMatrix))
+		for i, row := range currentMatrix {
+			intRow := make([]int, len(row))
+			for j, value := range row {
+				intRow[j] = int(value)
+			}
+			result[i] = intRow
+		}
+		Map0.MapMatrix = result
+		// TODO REMOVE ALL ABOVE
 
+		Map0.GenerateMapImage()
+
+		// TODO DISPLAY
 	})
 
 	validateButton := widget.NewButton("Generate JSON", func() {
