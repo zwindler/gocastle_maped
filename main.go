@@ -1,6 +1,8 @@
 package main
 
 import (
+	"image/color"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -9,8 +11,17 @@ import (
 )
 
 func main() {
-	myApp := app.New()
-	window := myApp.NewWindow("GoCastle Maped")
+	Maped := app.New()
+	Maped.Settings().SetTheme(CustomTheme{})
+	if Maped.Settings().ThemeVariant() == 0 {
+		// dark theme
+		TextColor = color.White
+	} else {
+		// light theme
+		TextColor = color.Black
+	}
+
+	window := Maped.NewWindow("GoCastle Maped")
 
 	showMenuScreen(window)
 	window.Resize(fyne.NewSize(800, 600))
