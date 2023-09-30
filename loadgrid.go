@@ -11,10 +11,6 @@ import (
 	"fyne.io/fyne/v2/storage"
 )
 
-type mapData struct {
-	MapMatrix [][]uint16
-}
-
 func ShowLoadGridScreen(window fyne.Window) {
 	fd := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
 		if err != nil {
@@ -28,12 +24,8 @@ func ShowLoadGridScreen(window fyne.Window) {
 
 		defer reader.Close()
 
-		data, err := loadGridFromFile(reader)
+		currentMatrix, err = loadGridFromFile(reader)
 		if err != nil {
-			dialog.ShowError(err, window)
-			return
-		}
-		if err := updateLoadedGridData(data); err != nil {
 			dialog.ShowError(err, window)
 			return
 		}
@@ -53,24 +45,8 @@ func ShowLoadGridScreen(window fyne.Window) {
 	fd.Show()
 }
 
-func loadGridFromFile(r io.Reader) (data map[string]interface{}, err error) {
+func loadGridFromFile(r io.Reader) (data [][]uint16, err error) {
 	return data, json.NewDecoder(r).Decode(&data)
-}
-
-func updateLoadedGridData(data map[string]interface{}) error {
-	var loadedData = mapData{}
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-	err = json.Unmarshal(jsonData, &loadedData)
-	if err != nil {
-		return err
-	}
-
-	currentMatrix = loadedData.MapMatrix
-
-	return nil
 }
 
 func getBaseDirectory() (fyne.ListableURI, error) {

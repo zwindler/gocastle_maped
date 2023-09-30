@@ -75,8 +75,7 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 			dialog.ShowError(fmt.Errorf("error encoding JSON: %w", err), window)
 			return
 		}
-		data := fmt.Sprintf("{\"MapMatrix\": %s}", string(jsonData))
-		ShowSaveGridScreen(window, data)
+		ShowSaveGridScreen(window, string(jsonData))
 	})
 	lastLine := container.New(layout.NewGridLayoutWithColumns(3), resetButton, previewButton, validateButton)
 
