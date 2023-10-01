@@ -10,7 +10,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func showNewGridScreen(window fyne.Window) {
+func showNewGridScreen(window, preview fyne.Window) {
 	rowsEntry := widget.NewEntry()
 	rowsEntry.SetPlaceHolder("Enter the number of rows")
 
@@ -37,7 +37,7 @@ func showNewGridScreen(window fyne.Window) {
 			return
 		}
 
-		showMatrixScreen(window, columns, rows)
+		showMatrixScreen(window, preview, columns, rows)
 	})
 
 	content := container.NewVBox(

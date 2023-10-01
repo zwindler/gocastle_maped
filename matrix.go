@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
@@ -19,7 +20,7 @@ var (
 	Map0          = maps.Map{}
 )
 
-func showMatrixScreen(window fyne.Window, columns, rows int) {
+func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 	var entriesMatrix [][]*widget.Entry
 
 	// if currentMatrix is empty, it means we are working with a new grid
@@ -51,10 +52,10 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 	scrollablegrid := container.NewScroll(mainGrid)
 
 	resetButton := widget.NewButton("Reset Matrix", func() {
-		showMatrixScreen(window, columns, rows)
+		showMatrixScreen(window, preview, columns, rows)
 	})
 
-	previewButton := widget.NewButton("Preview", func() {
+	previewButton := widget.NewButton("Refresh preview", func() {
 		// TODO REMOVE ALL BELLOW
 		result := make([][]int, len(currentMatrix))
 		for i, row := range currentMatrix {
@@ -69,7 +70,10 @@ func showMatrixScreen(window fyne.Window, columns, rows int) {
 
 		Map0.GenerateMapImage()
 
-		// TODO DISPLAY
+		backgroundImage := canvas.NewImageFromImage(Map0.MapImage)
+		backgroundImage.SetMinSize(fyne.NewSize(800, 600))
+		preview.SetContent(backgroundImage)
+		preview.Show()
 	})
 
 	validateButton := widget.NewButton("Generate JSON", func() {

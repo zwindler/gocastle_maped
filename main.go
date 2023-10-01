@@ -11,9 +11,9 @@ import (
 )
 
 func main() {
-	Maped := app.New()
-	Maped.Settings().SetTheme(CustomTheme{})
-	if Maped.Settings().ThemeVariant() == 0 {
+	maped := app.New()
+	maped.Settings().SetTheme(CustomTheme{})
+	if maped.Settings().ThemeVariant() == 0 {
 		// dark theme
 		TextColor = color.White
 	} else {
@@ -21,23 +21,24 @@ func main() {
 		TextColor = color.Black
 	}
 
-	window := Maped.NewWindow("GoCastle Maped")
+	window := maped.NewWindow("GoCastle Maped")
+	preview := maped.NewWindow("Preview")
 
-	showMenuScreen(window)
+	showMenuScreen(window, preview)
 	window.Resize(fyne.NewSize(800, 600))
 	window.ShowAndRun()
 }
 
 // showMenuScreen is the main function of the main screen.
-func showMenuScreen(window fyne.Window) {
+func showMenuScreen(window, preview fyne.Window) {
 
 	// Create buttons
 	newGridButton := widget.NewButton("New Grid", func() {
-		showNewGridScreen(window)
+		showNewGridScreen(window, preview)
 	})
 
 	loadGridButton := widget.NewButton("Load Grid", func() {
-		ShowLoadGridScreen(window)
+		ShowLoadGridScreen(window, preview)
 	})
 	quitButton := widget.NewButton("Quit", func() {
 		window.Close()

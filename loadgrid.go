@@ -11,7 +11,7 @@ import (
 	"fyne.io/fyne/v2/storage"
 )
 
-func ShowLoadGridScreen(window fyne.Window) {
+func ShowLoadGridScreen(window, preview fyne.Window) {
 	fd := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
 		if err != nil {
 			dialog.ShowError(err, window)
@@ -32,7 +32,7 @@ func ShowLoadGridScreen(window fyne.Window) {
 
 		rows := len(currentMatrix)
 		columns := len(currentMatrix[0])
-		showMatrixScreen(window, columns, rows)
+		showMatrixScreen(window, preview, columns, rows)
 	}, window)
 	// only show .json files
 	fd.SetFilter(storage.NewExtensionFileFilter([]string{".json"}))
