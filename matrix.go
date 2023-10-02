@@ -56,21 +56,28 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 	})
 
 	previewButton := widget.NewButton("Refresh preview", func() {
-		// TODO REMOVE ALL BELLOW
-		result := make([][]int, len(currentMatrix))
-		for i, row := range currentMatrix {
-			intRow := make([]int, len(row))
-			for j, value := range row {
-				intRow[j] = int(value)
+		var matrix [][]int
+		for y := 0; y < rows; y++ {
+			row := make([]int, columns)
+			for x := 0; x < columns; x++ {
+				value := entriesMatrix[y][x].Text
+				if value == "" {
+					value = "0"
+				}
+				intValue, err := strconv.Atoi(value)
+				if err != nil {
+					dialog.ShowError(fmt.Errorf("unable to convert value %d/%d %s to uint16", x, y, value), window)
+				}
+				row[x] = intValue
 			}
-			result[i] = intRow
+			matrix = append(matrix, row)
 		}
-		Map0.MapMatrix = result
+		Map0.MapMatrix = matrix
 		// TODO REMOVE ALL ABOVE
 
 		Map0.GenerateMapImage()
-
 		backgroundImage := canvas.NewImageFromImage(Map0.MapImage)
+		fmt.Println(Map0.MapMatrix)
 		backgroundImage.SetMinSize(fyne.NewSize(800, 600))
 		preview.SetContent(backgroundImage)
 		preview.Show()
