@@ -21,7 +21,6 @@ func showNewGridScreen(window, preview fyne.Window) {
 		rows_input := rowsEntry.Text
 		cols_input := colsEntry.Text
 
-		// Validate the input
 		if rows_input == "" || cols_input == "" {
 			dialog.ShowError(fmt.Errorf("both rows and columns must be entered"), window)
 			return
