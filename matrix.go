@@ -56,6 +56,7 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 	})
 
 	previewButton := widget.NewButton("Refresh preview", func() {
+		// TODO factorize code
 		var matrix [][]int
 		for y := 0; y < rows; y++ {
 			row := make([]int, columns)
@@ -73,11 +74,9 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 			matrix = append(matrix, row)
 		}
 		Map0.MapMatrix = matrix
-		// TODO REMOVE ALL ABOVE
 
 		Map0.GenerateMapImage()
 		backgroundImage := canvas.NewImageFromImage(Map0.MapImage)
-		fmt.Println(Map0.MapMatrix)
 		backgroundImage.SetMinSize(fyne.NewSize(800, 600))
 		preview.SetContent(backgroundImage)
 		preview.Show()
