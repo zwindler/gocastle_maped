@@ -18,11 +18,10 @@ import (
 var (
 	currentMatrix [][]uint16
 	Map0          = maps.Map{}
+	entriesMatrix [][]*widget.Entry
 )
 
 func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
-	var entriesMatrix [][]*widget.Entry
-
 	// if currentMatrix is empty, it means we are working with a new grid
 	// initialize it empty
 	if len(currentMatrix) == 0 {
@@ -56,24 +55,7 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 	})
 
 	previewButton := widget.NewButton("Refresh preview", func() {
-		// TODO factorize code
-		var matrix [][]int
-		for y := 0; y < rows; y++ {
-			row := make([]int, columns)
-			for x := 0; x < columns; x++ {
-				value := entriesMatrix[y][x].Text
-				if value == "" {
-					value = "0"
-				}
-				intValue, err := strconv.Atoi(value)
-				if err != nil {
-					dialog.ShowError(fmt.Errorf("unable to convert value %d/%d %s to uint16", x, y, value), window)
-				}
-				row[x] = intValue
-			}
-			matrix = append(matrix, row)
-		}
-		Map0.MapMatrix = matrix
+		Map0.MapMatrix = extractMatrixFromEntries(window, columns, rows)
 
 		Map0.GenerateMapImage()
 		backgroundImage := canvas.NewImageFromImage(Map0.MapImage)
@@ -83,22 +65,7 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 	})
 
 	validateButton := widget.NewButton("Generate JSON", func() {
-		var matrix [][]uint16
-		for y := 0; y < rows; y++ {
-			row := make([]uint16, columns)
-			for x := 0; x < columns; x++ {
-				value := entriesMatrix[y][x].Text
-				if value == "" {
-					value = "0"
-				}
-				intValue, err := strconv.Atoi(value)
-				if err != nil {
-					dialog.ShowError(fmt.Errorf("unable to convert value %d/%d %s to uint16", x, y, value), window)
-				}
-				row[x] = uint16(intValue)
-			}
-			matrix = append(matrix, row)
-		}
+		matrix := extractMatrixFromEntries(window, columns, rows)
 		jsonData, err := json.Marshal(matrix)
 		if err != nil {
 			dialog.ShowError(fmt.Errorf("error encoding JSON: %w", err), window)
@@ -111,4 +78,25 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 	mainContent := container.NewBorder(nil, lastLine, nil, nil, scrollablegrid)
 
 	window.SetContent(mainContent)
+}
+
+// extractMatrixFromEntries will read all the values in Entries and produce a map matrix
+func extractMatrixFromEntries(window fyne.Window, columns, rows int) (matrix [][]uint16) {
+	for y := 0; y < rows; y++ {
+		row := make([]uint16, columns)
+		for x := 0; x < columns; x++ {
+			value := entriesMatrix[y][x].Text
+			if value == "" {
+				value = "0"
+			}
+			intValue, err := strconv.Atoi(value)
+			if err != nil {
+				dialog.ShowError(fmt.Errorf("unable to convert value %d/%d %s to uint16", x, y, value), window)
+			}
+			row[x] = uint16(intValue)
+		}
+		matrix = append(matrix, row)
+	}
+
+	return matrix
 }
