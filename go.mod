@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	fyne.io/fyne/v2 v2.4.0
-	github.com/zwindler/gocastle v0.0.0-20231004121441-a8e67b8183ff
+	github.com/zwindler/gocastle v0.0.0-20231004123944-a3efbe310a5f
 )
 
 require (
