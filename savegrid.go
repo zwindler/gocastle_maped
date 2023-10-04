@@ -10,8 +10,6 @@ import (
 
 // ShowSaveGridScreen is the main function of the save Grid screen.
 func ShowSaveGridScreen(window fyne.Window, data string) {
-
-	// Show file save dialog
 	fd := dialog.NewFileSave(func(writer fyne.URIWriteCloser, err error) {
 		if err == nil && writer != nil {
 			defer writer.Close()
