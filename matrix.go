@@ -60,6 +60,7 @@ func showMatrixScreen(window, preview fyne.Window, columns, rows int) {
 		Map0.GenerateMapImage()
 		backgroundImage := canvas.NewImageFromImage(Map0.MapImage)
 		backgroundImage.SetMinSize(fyne.NewSize(800, 600))
+		backgroundImage.FillMode = canvas.ImageFillContain
 		preview.SetContent(backgroundImage)
 		preview.Show()
 	})
