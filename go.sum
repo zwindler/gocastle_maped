@@ -296,6 +296,8 @@ github.com/zwindler/gocastle v0.0.0-20231004121441-a8e67b8183ff h1:K10tSZ6C09nE9
 github.com/zwindler/gocastle v0.0.0-20231004121441-a8e67b8183ff/go.mod h1:TI82W5f7w+2/MQdRu4VKgPN6jNiFx/iNTdsTnChl1z0=
 github.com/zwindler/gocastle v0.0.0-20231004123944-a3efbe310a5f h1:t/M3HTEcLQPRv9pyQ8VqGI8gbNvBk3W+1ucLDjZaJ0I=
 github.com/zwindler/gocastle v0.0.0-20231004123944-a3efbe310a5f/go.mod h1:TI82W5f7w+2/MQdRu4VKgPN6jNiFx/iNTdsTnChl1z0=
+github.com/zwindler/gocastle v0.0.0-20231004211921-8af99a2f309a h1:QWp0v88Om6xXD8D4Ev9w+xoIY1zI42ykPYyhYw066tk=
+github.com/zwindler/gocastle v0.0.0-20231004211921-8af99a2f309a/go.mod h1:TI82W5f7w+2/MQdRu4VKgPN6jNiFx/iNTdsTnChl1z0=
 go.etcd.io/etcd/api/v3 v3.5.0/go.mod h1:cbVKeC6lCfl7j/8jBhAK6aIYO9XOjdptoxU/nLQcPvs=
 go.etcd.io/etcd/client/pkg/v3 v3.5.0/go.mod h1:IJHfcCEKxYu1Os13ZdwCwIUTUVGYTSAM3YSwc9/Ac1g=
 go.etcd.io/etcd/client/v2 v2.305.0/go.mod h1:h9puh54ZTgAKtEbut2oe9P4L/oqKCVB6xsXlzd7alYQ=
